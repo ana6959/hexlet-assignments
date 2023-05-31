@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import static exercise.Data.getCompanies;
@@ -27,7 +28,7 @@ public class CompaniesServlet extends HttpServlet {
         String queryString = request.getQueryString();
         String searchParam = request.getParameter("search");
 
-        if (searchParam.equals("") || searchParam == null) {
+        if (searchParam == null) {
             listOfSearchCompanies = Data.getCompanies();
         } else {
             for (String company: Data.getCompanies()) {
@@ -38,9 +39,12 @@ public class CompaniesServlet extends HttpServlet {
         }
 
         if (listOfSearchCompanies.isEmpty()) {
-            out.println("Companies not found.");
+            out.println("Companies not found");
         } else {
-            out.println(listOfSearchCompanies);
+            listOfSearchCompanies.stream()
+                            .forEach(out::println);
+
+//            out.println(Arrays.toString(listOfSearchCompanies.toArray()));
         }
 
         // END
