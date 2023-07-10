@@ -29,17 +29,17 @@ public class PeopleController {
 
     // BEGIN
     @GetMapping("/")
-    public String getPeople() {
+    public List<Map<String, Object>> getPeople() {
         String query = "SELECT * FROM person";
         jdbc.execute(query);
-        return jdbc.queryForList(query).toString();
+        return jdbc.queryForList(query);
     }
 
     @GetMapping("/{id}")
-    public String getPerson(@PathVariable int id) {
+    public List<Map<String, Object>> getPerson(@PathVariable int id) {
         String query = "SELECT * FROM person WHERE id = " + id;
         jdbc.execute(query);
-        return jdbc.queryForList(query).toString();
+        return jdbc.queryForList(query);
     }
     // END
 }

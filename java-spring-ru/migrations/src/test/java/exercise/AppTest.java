@@ -35,7 +35,7 @@ public class AppTest {
     @Test
     void testGetPeople() throws Exception {
         MockHttpServletResponse response = mockMvc
-            .perform(get("/people"))
+            .perform(get("/people/"))
             .andReturn()
             .getResponse();
 
@@ -71,7 +71,7 @@ public class AppTest {
         assertThat(responsePost.getStatus()).isEqualTo(200);
 
         MockHttpServletResponse response = mockMvc
-            .perform(get("/people"))
+            .perform(get("/people/"))
             .andReturn()
             .getResponse();
 
