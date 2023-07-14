@@ -2,6 +2,7 @@ package exercise;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exercise.dto.PersonDto;
+import exercise.model.Person;
 import exercise.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -127,11 +128,20 @@ public class AppTest {
 
     @Test
     void testUpdatesPerson() throws Exception {
+
+        var existingPerson = "john@gmail.com";
+        var existingPersonId = TestUtils.getUserIdByEmail(mockMvc, existingPerson);
+
+        PersonDto personDto = new PersonDto();
+        personDto.setFirstName("Bill");
+        personDto.setLastName("Maher");
+        personDto.setEmail("bill@gmail.com");
+
         MockHttpServletResponse responsePost = mockMvc
                 .perform(
-                        patch("/people/1")
+                        patch("/people/{id}", existingPersonId)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"firstName\": \"Bill\", \"lastName\": \"Maher\", \"email\": \"maher@gmail.com\"}")
+                                .content(mapper.writeValueAsString(personDto))
                 )
                 .andReturn()
                 .getResponse();
@@ -150,8 +160,10 @@ public class AppTest {
 
     @Test
     void testDeletePerson() throws Exception {
+        var existingPerson = "malkiovich@gmail.com";
+        var existingPersonId = TestUtils.getUserIdByEmail(mockMvc, existingPerson);
         MockHttpServletResponse responsePost = mockMvc
-                .perform(delete("/people/4"))
+                .perform(delete("/people/{id}", existingPersonId))
                 .andReturn()
                 .getResponse();
 
